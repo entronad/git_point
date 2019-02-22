@@ -29,10 +29,6 @@ class _Method {
 }
 
 class _Parameters {
-  String method;
-  Map<String, String> headers;
-  String body;
-
   _Parameters(
     String accessToken,
     [
@@ -56,6 +52,10 @@ class _Parameters {
       }
     }
   }
+
+  String method;
+  Map<String, String> headers;
+  String body;
 }
 
 class _V3 {
