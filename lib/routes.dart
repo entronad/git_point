@@ -1,24 +1,42 @@
 import 'package:flutter/material.dart';
 import 'src/utils/navigation.dart';
+import 'application.dart';
 
-Scaffold buildTestScreen(String text) => Scaffold(
-  body: Text(text),
-);
+class TestScreen extends StatelessWidget {
+  TestScreen(this.from, this.to);
+
+  final String from;
+  final String to;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: RaisedButton(
+          child: Text(from),
+          onPressed: () {
+            Application.router.navigateTo(context, to);
+          },
+        ),
+      ),
+    );
+  }
+}
 
 class GitPoint extends StackNavigator {
   @override
   Map<String, RouteConfig> get routeConfigs => {
     'Splash': RouteConfig(
-      screen: buildTestScreen('Splash'),
+      screen: TestScreen('Splash', 'Login'),
     ),
     'Login': RouteConfig(
-      screen: buildTestScreen('Login'),
+      screen: TestScreen('Login', 'Welcome'),
     ),
     'Welcome': RouteConfig(
-      screen: buildTestScreen('Welcome'),
+      screen: TestScreen('Welcome', 'Main'),
     ),
     'Main': RouteConfig(
-      screen: buildTestScreen('Main'),
+      screen: TestScreen('Main', 'Splash'),
     ),
   };
 

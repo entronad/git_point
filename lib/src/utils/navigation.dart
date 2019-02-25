@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
+import 'package:git_point/application.dart';
 
 class RouteConfig {
   RouteConfig({@required this.screen, this.path, this.navigationOptions});
@@ -71,9 +72,9 @@ class TabNavigatorConfig {
 }
 
 abstract class StackNavigator extends StatefulWidget {
-  // required to override
+  // Required to override.
   Map<String, RouteConfig> get routeConfigs;
-  // optional to ovveride
+  // Optional to ovveride.
   StackNavigatorConfig get stackNavigatorConfig => null;
 
   @override
@@ -84,17 +85,16 @@ class _StackNavigatorState extends State<StackNavigator> {
   _StackNavigatorState(Map<String, RouteConfig> routeConfigs, StackNavigatorConfig stackNavigatorConfig) {
     routeConfigs.forEach((name, config) {
       initialRoute ??= name;
-      router.define(name, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) => config.screen));
+      Application.router.define(name, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) => config.screen));
     });
   }
 
-  final router = Router();
   String initialRoute;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      onGenerateRoute: router.generator,
+      onGenerateRoute: Application.router.generator,
       initialRoute: initialRoute,
     );
   }
