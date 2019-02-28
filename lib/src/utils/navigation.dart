@@ -4,12 +4,54 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:git_point/application.dart';
 
+class Distance {
+  Distance({this.horizontal, this.vertical});
+
+  final num horizontal;
+  final num vertical;
+}
+
+class NavigationOptions {
+  NavigationOptions({
+    this.title,
+    this.header,
+  });
+
+  // For StackNavigator
+  final String title;
+  final Widget header;
+  final String headerTitle;
+  final bool headerTitleAllowFontScaling;
+  final String headerBackImage;
+  final String headerBackTitle;
+  final String headerTruncatedBackTitle;
+  final Widget headerRight;
+  final Widget headerLeft;
+  final Object headerStyle;
+  final bool headerForceInset;
+  final Object headerTitleStyle;
+  final Object headerBackTitleStyle;
+  final String headerTintColor;
+  final String headerPressColorAndroid;
+  final bool headerTransparent;
+  final Widget headerBackground;
+  final bool gesturesEnabled;
+  final Distance gestureResponseDistance;
+  final String gestureDirection;
+
+  // For TabNavigator
+  final bool swipeEnabled;
+  final Widget tabBarIcon;
+  final String tabBarLabel;
+  final Function tabBarOnPress;
+}
+
 class RouteConfig {
   RouteConfig({@required this.screen, this.path, this.navigationOptions});
 
   final Widget screen;
   final String path;
-  final Function navigationOptions;
+  final NavigationOptions navigationOptions;
 }
 
 class StackNavigatorConfig {
@@ -97,6 +139,54 @@ class _StackNavigatorState extends State<StackNavigator> {
       onGenerateRoute: Application.router.generator,
       initialRoute: initialRoute,
     );
+  }
+}
+
+abstract class TabNavigator extends StatefulWidget {
+  // Required to override.
+  Map<String, RouteConfig> get routeConfigs;
+  // Optional to ovveride.
+  TabNavigatorConfig get tabNavigatorConfig => null;
+
+  @override
+  _TabNavigatorState createState() => _TabNavigatorState(routeConfigs, tabNavigatorConfig);
+}
+
+class _TabNavigatorState extends State<TabNavigator> {
+  _TabNavigatorState(Map<String, RouteConfig> routeConfigs, TabNavigatorConfig tabNavigatorConfig) {
+    routeConfigs.forEach((name, config) {
+      
+    });
+  }
+
+  int _selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('BottomNavigationBar Sample'),
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+          BottomNavigationBarItem(icon: Icon(Icons.business), title: Text('Business')),
+          BottomNavigationBarItem(icon: Icon(Icons.school), title: Text('School')),
+        ],
+        currentIndex: _selectedIndex,
+        fixedColor: Colors.deepPurple,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
 

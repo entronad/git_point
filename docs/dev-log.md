@@ -61,3 +61,7 @@ TabNavigator用带BottomNavigationBar的Scaffold代替
 StackNavigator中生成的router如何传递给子组件还是问题
 
 screen参数只能是实例，不能是类也存在不匹配
+
+
+
+为方便，NavigationOptions等可为对象可为返回对象函数的定为对象类型，headerBackImage等多种可能的先用简单的
