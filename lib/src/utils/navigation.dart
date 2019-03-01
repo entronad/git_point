@@ -1,8 +1,9 @@
 /// A simulation of react-navigation
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Colors;
 import 'package:fluro/fluro.dart';
 import 'package:git_point/application.dart';
+import 'package:git_point/src/config/index.dart';
 
 class Distance {
   Distance({this.horizontal, this.vertical});
@@ -15,6 +16,29 @@ class NavigationOptions {
   NavigationOptions({
     this.title,
     this.header,
+    this.headerTitle,
+    this.headerTitleAllowFontScaling,
+    this.headerBackImage,
+    this.headerBackTitle,
+    this.headerTruncatedBackTitle,
+    this.headerRight,
+    this.headerLeft,
+    this.headerStyle,
+    this.headerForceInset,
+    this.headerTitleStyle,
+    this.headerBackTitleStyle,
+    this.headerTintColor,
+    this.headerPressColorAndroid,
+    this.headerTransparent,
+    this.headerBackground,
+    this.gesturesEnabled,
+    this.gestureResponseDistance,
+    this.gestureDirection,
+
+    this.swipeEnabled,
+    this.tabBarIcon,
+    this.tabBarLabel = '',
+    this.tabBarOnPress,
   });
 
   // For StackNavigator
@@ -41,7 +65,7 @@ class NavigationOptions {
 
   // For TabNavigator
   final bool swipeEnabled;
-  final Widget tabBarIcon;
+  final IconData tabBarIcon;
   final String tabBarLabel;
   final Function tabBarOnPress;
 }
@@ -155,30 +179,34 @@ abstract class TabNavigator extends StatefulWidget {
 class _TabNavigatorState extends State<TabNavigator> {
   _TabNavigatorState(Map<String, RouteConfig> routeConfigs, TabNavigatorConfig tabNavigatorConfig) {
     routeConfigs.forEach((name, config) {
-      
+      _widgetOptions.add(config.screen);
+      _barItems.add(BottomNavigationBarItem(
+        icon: Icon(config.navigationOptions.tabBarIcon, color: Colors.grey),
+        activeIcon: Icon(config.navigationOptions.tabBarIcon, color: Colors.primaryDark),
+        // Workaround to 'showLabel: false'
+        title: Container(height: 0.0),
+      ));
     });
   }
 
   int _selectedIndex = 0;
+  final _widgetOptions = <Widget>[];
+  final _barItems = <BottomNavigationBarItem>[];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('BottomNavigationBar Sample'),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-          BottomNavigationBarItem(icon: Icon(Icons.business), title: Text('Business')),
-          BottomNavigationBarItem(icon: Icon(Icons.school), title: Text('School')),
-        ],
-        currentIndex: _selectedIndex,
-        fixedColor: Colors.deepPurple,
-        onTap: _onItemTapped,
+      bottomNavigationBar: Theme(
+        data: ThemeData(canvasColor: Colors.alabaster),
+        child: BottomNavigationBar(
+          items: _barItems,
+          currentIndex: _selectedIndex,
+          type: BottomNavigationBarType.fixed,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
@@ -189,5 +217,3 @@ class _TabNavigatorState extends State<TabNavigator> {
     });
   }
 }
-
-

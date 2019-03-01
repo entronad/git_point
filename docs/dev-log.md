@@ -65,3 +65,5 @@ screen参数只能是实例，不能是类也存在不匹配
 
 
 为方便，NavigationOptions等可为对象可为返回对象函数的定为对象类型，headerBackImage等多种可能的先用简单的
+
+bnb只有一处用，所以直接在其中设定格式

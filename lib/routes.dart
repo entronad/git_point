@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'src/utils/navigation.dart';
 import 'application.dart';
 
+import './src/auth/index.dart';
+
+// Placeholder for test
 class TestScreen extends StatelessWidget {
   TestScreen(this.from, this.to);
 
@@ -23,6 +26,39 @@ class TestScreen extends StatelessWidget {
   }
 }
 
+class MainTabNavigator extends TabNavigator {
+  @override
+  Map<String, RouteConfig> get routeConfigs => {
+    'Home': RouteConfig(
+      screen: TestScreen('Home', 'Splash'),
+      navigationOptions: NavigationOptions(
+        tabBarIcon: Icons.home,
+      )
+    ),
+    'Notifications': RouteConfig(
+      screen: TestScreen('Notifications', 'Splash'),
+      navigationOptions: NavigationOptions(
+        tabBarIcon: Icons.notifications,
+      )
+    ),
+    'Search': RouteConfig(
+      screen: TestScreen('Search', 'Splash'),
+      navigationOptions: NavigationOptions(
+        tabBarIcon: Icons.search,
+      )
+    ),
+    'MyProfile': RouteConfig(
+      screen: Splash(),
+      navigationOptions: NavigationOptions(
+        tabBarIcon: Icons.person,
+      )
+    ),
+  };
+
+  @override
+  TabNavigatorConfig get tabNavigatorConfig => super.tabNavigatorConfig;
+}
+
 class GitPoint extends StackNavigator {
   @override
   Map<String, RouteConfig> get routeConfigs => {
@@ -36,7 +72,7 @@ class GitPoint extends StackNavigator {
       screen: TestScreen('Welcome', 'Main'),
     ),
     'Main': RouteConfig(
-      screen: TestScreen('Main', 'Splash'),
+      screen: MainTabNavigator(),
     ),
   };
 
